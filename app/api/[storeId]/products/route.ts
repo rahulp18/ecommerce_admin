@@ -18,6 +18,7 @@ export async function POST(
       isFeatured,
       isArchive,
       categoryId,
+      description
     } = body;
     if (!userId) {
         return new NextResponse("Unauthenticated", { status: 403 });
@@ -39,6 +40,9 @@ export async function POST(
   
       if (!categoryId) {
         return new NextResponse("Category id is required", { status: 400 });
+      }
+      if(!description){
+        return new NextResponse("description id is required", { status: 400 });
       }
   
       if (!colorId) {
@@ -73,6 +77,7 @@ export async function POST(
           },
         },
         storeId: params.storeId,
+        description
       },
     });
     return NextResponse.json(billboard);

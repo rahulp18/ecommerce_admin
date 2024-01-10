@@ -40,6 +40,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
 interface ProductFormProps {
   initialData:
     | (Product & {
@@ -55,6 +56,7 @@ const formSchema = z.object({
   price: z.coerce.number().min(1),
   images: z.object({ url: z.string() }).array(),
   categoryId: z.string().min(1),
+  description: z.string().min(5),
   sizeId: z.string().min(1),
   colorId: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
@@ -120,9 +122,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const onContinue = async () => {
     try {
       setLoading(true);
-      await axios.delete(
-        `/api/${params.storeId}/products/${params.productId}`,
-      );
+      await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
       router.push(`/${params.storeId}/products`);
       router.refresh();
       toast.success('Product deleted');
@@ -193,6 +193,23 @@ const ProductForm: React.FC<ProductFormProps> = ({
                       disabled={loading}
                       {...field}
                       placeholder="Product Name"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      disabled={loading}
+                      placeholder="Product Description"
                     />
                   </FormControl>
                   <FormMessage />
@@ -313,42 +330,44 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-               <FormField
+            <FormField
               control={form.control}
               name="isFeatured"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md p-4' >
-               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-               </FormControl>
-               <div className="space-y-1 leading-none">
-                <FormLabel>
-                Featured
-                </FormLabel>
-                <FormDescription>
-                  This product will appear on the home page
-                </FormDescription>
-                </div>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Featured</FormLabel>
+                    <FormDescription>
+                      This product will appear on the home page
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
-                   <FormField
+            <FormField
               control={form.control}
               name="isArchive"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md p-4' >
-               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-               </FormControl>
-               <div className="space-y-1 leading-none">
-                <FormLabel>
-                Archive
-                </FormLabel>
-                <FormDescription>
-                  This product will hide from store
-                </FormDescription>
-                </div>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Archive</FormLabel>
+                    <FormDescription>
+                      This product will hide from store
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

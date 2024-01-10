@@ -124,7 +124,7 @@ const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
                     <Input
                       disabled={loading}
                       {...field}
-                      placeholder="Store Name"
+                      placeholder="Size Name"
                     />
                   </FormControl>
                   <FormMessage />

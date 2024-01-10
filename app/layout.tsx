@@ -4,6 +4,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ModalProvider } from '@/providers/modal-provider';
 import { ToastProvider } from '@/providers/toast-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -22,7 +23,10 @@ export default function RootLayout({
         <body className={inter.className}>
           <ModalProvider/>
           <ToastProvider/>
+          <ThemeProvider attribute='class' defaultTheme='light' enableSystem >
+
           {children}
+          </ThemeProvider>
           
           </body>
       </html>
